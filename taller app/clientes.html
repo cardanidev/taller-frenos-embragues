@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Registro de Clientes</h1>
+
+    <form id="formCliente">
+        <input 
+         type="text"
+         id="nombre"
+         placeholder="Ingrese un nombre"
+        >
+        <input 
+        type="text"
+        id="telefono"
+        placeholder="Ingrese un númerio telefónico"
+        >
+
+        <button id="btnGuardar" type="submit">
+            Registrar
+        </button>
+    </form>
+
+    <h2>Lista de registrados</h2>
+    
+    <div id="listaClientes"></div>
+
+    <!--LIBRERIA OFICIAL SIEMPRE VA PRIMERO-->
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+    <script src="/js/supabaseClient.js"></script>
+
+    <script src="/js/clientes.js"></script>
+</body>
+</html>
