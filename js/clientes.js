@@ -8,12 +8,12 @@ let clienteEnEdicion = null;
 let clientes = [];
 
 formulario.addEventListener("submit", async function(evento){
-    
+    //evitar que este formulario recargue la página
     evento.preventDefault();
-    
+    // primero estamos declarando la constante
     const nombre = document.getElementById("nombre").value;
     const telefono = document.getElementById("telefono").value;
-    
+    //aquí validamos las constantes
     if(nombre === "" || telefono === "") {
     
         alert("completa todos los campos");
@@ -21,9 +21,9 @@ formulario.addEventListener("submit", async function(evento){
     }
 
     let error;
-
+    //Aquí es donde trabajamos el estado de la app
     if(clienteEnEdicion === null) {
-
+        //Aquí estamos registrando (null)
         const resultado = await supabaseClient
             .from("clientes")
             .insert([
@@ -36,7 +36,7 @@ formulario.addEventListener("submit", async function(evento){
             error = resultado.error;
 
     } else {
-
+        //Aquí actualizamos (cliente en edicion porque tiene valor "id")
         const resultado = await supabaseClient
             .from("clientes")
             .update({
