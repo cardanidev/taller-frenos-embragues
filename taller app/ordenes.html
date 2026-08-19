@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form id="formOrden">
+        <select id="cliente">
+            <option value="">
+                Seleccione Un Cliente
+            </option>
+        </select>
+        <select id="vehiculo">
+            <option value="">
+                Seleccione Un Vehiculo
+            </option>
+        </select>
+        <textarea id="diagnosticoCliente" placeholder="Describa el problema del vehiculo">
+        </textarea>
+        <button id="btnOrden" type="submit">Crear Orden
+
+        </button>
+    </form>
+
+    <div id="listaOrdenes">
+
+    </div>
+ <!-- ----------scripts-------- -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js">
+
+    </script>
+    <script src="../js/supabaseClient.js">
+
+    </script>
+    <script src="../js/ordenes.js">
+
+    </script>
+
+</body>
+</html>

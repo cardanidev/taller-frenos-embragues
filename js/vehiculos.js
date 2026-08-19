@@ -15,7 +15,7 @@ formularioVehiculo.addEventListener("submit", async function(evento){
     const modelo = document.getElementById("modelo").value;
     const color = document.getElementById("color").value;
     let anioFabricacion = document.getElementById("anioFabricacion").value;
-
+    
         if (anioFabricacion === "") {
         anioFabricacion = null;
         }
@@ -176,7 +176,7 @@ async function eliminarVehiculo(id) {
             console.log(error);
             alert("Error al eliminar vehículo.")
             return;
-        } 
+        }
 
         alert("Vehículo eliminado correctamente.");
 
