@@ -100,12 +100,63 @@ formularioOrdenes.addEventListener("submit", async function(evento){
 
     } else {
 
-            console.log(data)
-            alert("Orden Creada")
+            console.log(data);
+            alert("Orden Creada");
+
+            formularioOrdenes.reset();
+
+            obtenerOrdenes();
+
+            
     }
 
 });
 
+async function obtenerOrdenes() {
 
-cargarClientes()
+    const { data, error } = await supabaseClient
+        .from("ordenes_trabajo")
+        .select(`
+            *,
+            vehiculos (*, clientes(*))
+            `);
+
+    if (error) {
+        console.log(error);
+        alert("Error Al Cargar Las Ordenes");
+        return;
+    }
+
+    console.log(data);
+
+    listaOrdenes.innerHTML = "";
+
+    data.forEach(function(orden){
+        
+
+        const fecha = new Date(orden.fecha_ingreso);
+
+        const fechaFormateada = fecha.toLocaleString();
+
+        const divOrden = document.createElement("div");
+
+        divOrden.innerHTML = `
+        
+            <h3>Orden #${orden.id}</h3>
+            <p>Cliente : ${orden.vehiculos.clientes.nombre}</p>
+            <p>Vehiculo: ${orden.vehiculos.placa} - ${orden.vehiculos.marca} - ${orden.vehiculos.modelo}</p>
+            <p>Diagnóstico: ${orden.diagnostico_cliente}</p>
+            <p>Estado: ${orden.estado}</p>
+            <p>Fecha: ${fechaFormateada}</p>
+         
+        `;
+
+        listaOrdenes.appendChild(divOrden);
+
+    });
+
+}
+
+obtenerOrdenes();
+cargarClientes();
 
