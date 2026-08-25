@@ -81,7 +81,9 @@ formularioOrdenes.addEventListener("submit", async function(evento){
     const vehiculoId = selectVehiculo.value;
     const diagnostico = diagnosticoCliente.value;
     
-    const nuevaOrden = {
+    if (ordenEnEdicion === null){
+
+         const nuevaOrden = {
 
         vehiculo_id: vehiculoId,
         estado: "pendiente",
@@ -110,6 +112,29 @@ formularioOrdenes.addEventListener("submit", async function(evento){
             
     }
 
+    } else {
+
+        const { data, error } = await supabaseClient
+            .from("ordenes_trabajo")
+            .update({
+                diagnostico_cliente: diagnostico
+            })
+            .eq("id", ordenEnEdicion);
+
+        if (error) {
+            console.log(error);
+            alert("Error Al actualizar La Orden");
+            return;
+        }
+        alert ("orden Actualizada");
+
+        formularioOrdenes.reset();
+        obtenerOrdenes();
+
+        
+        ordenEnEdicion = null;
+        btnOrden.textContent = "Crear Orden"
+    } 
 });
 
 async function obtenerOrdenes() {
@@ -148,8 +173,18 @@ async function obtenerOrdenes() {
             <p>Diagnóstico: ${orden.diagnostico_cliente}</p>
             <p>Estado: ${orden.estado}</p>
             <p>Fecha: ${fechaFormateada}</p>
+            <button type= "button" data-id="${orden.id}">Editar</button>
          
         `;
+
+        const btnEditar = divOrden .querySelector("button");
+
+        btnEditar.addEventListener("click", function() {
+                ordenEnEdicion= this.dataset.id;
+                console.log(ordenEnEdicion);
+                diagnosticoCliente.value = orden.diagnostico_cliente;
+                btnOrden.textContent = "Actualizar Orden";
+        });
 
         listaOrdenes.appendChild(divOrden);
 
