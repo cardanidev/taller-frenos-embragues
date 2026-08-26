@@ -8,7 +8,6 @@ const listaOrdenes = document.getElementById("listaOrdenes");
 
 let ordenEnEdicion = null;
 
-
 async function cargarClientes() {
 
     console.log("cargarClientes ejecutándose")
@@ -165,6 +164,16 @@ async function obtenerOrdenes() {
 
         const divOrden = document.createElement("div");
 
+        let botonEliminar = "";
+
+        if (orden.estado === "pendiente") {
+
+            botonEliminar = `
+                <button type="button" class="btn-eliminar" data-id="${orden.id}">Eliminar</button>
+            `;
+
+        }
+
         divOrden.innerHTML = `
         
             <h3>Orden #${orden.id}</h3>
@@ -173,11 +182,45 @@ async function obtenerOrdenes() {
             <p>Diagnóstico: ${orden.diagnostico_cliente}</p>
             <p>Estado: ${orden.estado}</p>
             <p>Fecha: ${fechaFormateada}</p>
-            <button type= "button" data-id="${orden.id}">Editar</button>
+            <button type= "button" class="btn-editar" data-id="${orden.id}">Editar</button>
+            ${botonEliminar}
          
         `;
 
-        const btnEditar = divOrden .querySelector("button");
+        const btnEliminar = divOrden.querySelector (".btn-eliminar");
+            console.log(btnEliminar);
+        if (btnEliminar) {
+
+            btnEliminar.addEventListener("click", async function(){
+
+                console.log("Eliminar orden", this.dataset.id);
+
+                const ordenId = this.dataset.id;
+                
+                if(!confirm("Estás seguro de eliminar esta orden?")){
+                    return;
+                }
+
+                const { data, error } = await supabaseClient
+
+                    .from("ordenes_trabajo")
+                    .delete()
+                    .eq("id", ordenId);
+
+                    if(error) {
+                        console.log(error);
+                        alert("Error Al Eliminar La Orden")
+                        return;
+                    }
+
+                    alert ("Orden Eliminada");
+                    obtenerOrdenes();
+
+            });
+
+        }
+
+        const btnEditar = divOrden.querySelector(".btn-editar");
 
         btnEditar.addEventListener("click", function() {
                 ordenEnEdicion= this.dataset.id;
